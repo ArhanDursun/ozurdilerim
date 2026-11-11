@@ -19,7 +19,7 @@
     background:radial-gradient(ellipse at 50% 120%,#2b2f6b 0%,#141838 45%,#070919 100%) fixed;
     min-height:100vh; overflow-x:hidden;
   }
-  canvas#sky{position:fixed;inset:0;pointer-events:none;z-index:0}
+  canvas#sky{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
   .moon{position:fixed;top:7vh;right:9vw;width:70px;height:70px;border-radius:50%;z-index:0;
     background:radial-gradient(circle at 35% 35%,#fffbe9,#f4e3b5 60%,#e3c98d);
     box-shadow:0 0 40px 10px rgba(255,236,190,.25),0 0 120px 40px rgba(255,236,190,.08)}
@@ -112,12 +112,19 @@
   .days small{font-family:'Caveat',cursive;font-size:1.35rem;color:var(--soft);margin-top:4px}
   .fall{position:fixed;top:-50px;z-index:7;pointer-events:none;animation:fall linear forwards}
   @keyframes fall{to{transform:translateY(115vh) rotate(var(--r))}}
+  .ic{width:1.05em;height:1.05em;vertical-align:-.15em;display:inline-block}
+  .ic-lg{width:44px;height:44px;color:#6b6f96}
+  .ic-xl{width:64px;height:64px;color:var(--gold)}
+  .seal .ic{width:20px;height:20px}
+  .btn .ic{margin-right:4px}
+  .lead .ic,.hand .ic,.moon-note .ic,#since .ic{color:var(--gold)}
+  .big-heart{line-height:0}
 </style>
 </head>
 <body>
 <canvas id="sky"></canvas>
 <div class="moon" id="moon"></div>
-<div class="moon-note" id="moonNote">20 yıl beklediysem,<br>bir özrün cevabını da beklerim 🌙</div>
+<div class="moon-note" id="moonNote">20 yıl beklediysem,<br>bir özrün cevabını da beklerim <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></div>
 <main>
 
   <section class="scene active" id="s1">
@@ -131,7 +138,7 @@
     <div class="eyebrow">Senin için bir mektup</div>
     <h1>Bunu sana<br><em>yazmak</em> istedim.</h1>
     <div class="envelope" onclick="go(3)" role="button" aria-label="Mektubu aç">
-      <div class="body"></div><div class="flap"></div><div class="seal">★</div>
+      <div class="body"></div><div class="flap"></div><div class="seal"><svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
     </div>
     <div class="hint">aç beni</div>
   </section>
@@ -155,7 +162,7 @@
         <div class="cap">biz, o zaman…</div>
       </div>
       <div class="polaroid p-now">
-        <div class="empty"><span class="cam">📸</span><span class="q">henüz<br>çekilmedi</span></div>
+        <div class="empty"><span class="cam"><svg class="ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span><span class="q">henüz<br>çekilmedi</span></div>
         <div class="cap">biz, şimdi…</div>
       </div>
     </div>
@@ -191,9 +198,9 @@
     <h1>Parmağınla <em>kazı</em>.</h1>
     <div class="scratch">
       <div class="coupon">
-        <div class="c-top">🎟️ KUPON</div>
+        <div class="c-top"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg> KUPON</div>
         <div class="c-main">İlk fotoğrafımızı çekmek için<br>bir buluşma</div>
-        <div class="c-sub">Gün senden, yer senden. Kahveler benden ☕</div>
+        <div class="c-sub">Gün senden, yer senden. Kahveler benden <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><path d="M6 2v2M10 2v2M14 2v2"/></svg></div>
         <div class="c-exp">Son kullanma tarihi: yok</div>
       </div>
       <canvas id="scratchCv"></canvas>
@@ -202,21 +209,21 @@
   </section>
 
   <section class="scene" id="s8">
-    <div class="big-heart">🌙</div>
+    <div class="big-heart"><svg class="ic-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></div>
     <h1>Beni <em>affeder</em> misin?</h1>
-    <p class="lead">Dikkatli düşün, cevabın benim için çok önemli 🙂</p>
+    <p class="lead">Dikkatli düşün, cevabın benim için çok önemli</p>
     <div>
       <button class="btn" onclick="forgive()">Evet, affediyorum</button>
       <button class="btn ghost" id="noBtn">Affetmiyorum</button>
     </div>
   </section>
 
-  <section class="scene" id="s9" style="padding-top:20vh">
-    <div class="big-heart">💛</div>
+  <section class="scene" id="s9" style="padding-top:34vh">
+    <div class="big-heart"><svg class="ic-xl" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
     <h1>Teşekkür ederim,<br><em>Güldeniz</em>.</h1>
-    <p class="lead">Affettiysen kameraya bir kalp 🫶 ve bir öpücük 😘 gönderir misin?</p>
-    <button class="btn" id="sentBtn" onclick="sent()">Gönderdim 😘</button>
-    <p class="lead hand" id="sentMsg" style="display:none">Ben de sana sonsuz kalp gönderiyorum 💛<br>Yakında o ikinci fotoğrafta görüşmek üzere 📸</p>
+    <p class="lead">Affettiysen kameraya bir kalp ve bir öpücük gönderir misin? <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></p>
+    <button class="btn" id="sentBtn" onclick="sent()"><svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Gönderdim</button>
+    <p class="lead hand" id="sentMsg" style="display:none">Ben de sana sonsuz kalp gönderiyorum <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><br>Yakında o ikinci fotoğrafta görüşmek üzere <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></p>
   </section>
 
   <div class="dots" id="dots"></div>
@@ -239,7 +246,7 @@
     if(n===3){ document.querySelectorAll('#letter p').forEach((p,i)=>{ p.classList.remove('in'); setTimeout(()=>p.classList.add('in'), 300+i*1100); }); }
     if(n===7) initScratch();
     if(n===4) countDays();
-    if(n===9) setTimeout(constellation, 900);
+    if(n===9) (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>setTimeout(constellation, 900));
     const mo=document.getElementById('moon'); mo.style.transition='opacity 1.2s'; mo.style.opacity = n===9 ? '0' : '1';
     const mn=document.getElementById('moonNote'); if(mn) mn.classList.remove('show');
     paintDots();
@@ -249,7 +256,7 @@
   
   // kaçan "Affetmiyorum" butonu
   const no=document.getElementById('noBtn');
-  const lines=['Affetmiyorum','Emin misin?','Bir daha düşün 🥺','Yakalayamazsın 😜','Olmaz ki ama…','Hadi ama 🙏','Evet\'e bas bence'];
+  const lines=['Affetmiyorum','Emin misin?','Bir daha düşün','Yakalayamazsın','Olmaz ki ama…','Hadi ama','Evet\'e bas bence'];
   let li=0;
   function flee(e){
     if(e){e.preventDefault();e.stopPropagation();}
@@ -337,7 +344,7 @@
   // gün sayacı
   function countDays(){
     const n=Math.floor((Date.now()-new Date(2026,10,4).getTime())/864e5), sn=document.getElementById('since');
-    sn.innerHTML = n<=0 ? 'ta ki bugün yeniden karşılaşana dek 💛' : `<b>4 Kasım 2026</b>'da yeniden karşılaştık,<br>üstünden ${n} gün geçti 💛`;
+    sn.innerHTML = n<=0 ? 'ta ki bugün yeniden karşılaşana dek <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>' : `<b>4 Kasım 2026</b>'da yeniden karşılaştık,<br>üstünden ${n} gün geçti <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`;
     const el=document.getElementById('days'), target=7305, t0=performance.now(), dur=2600;
     (function step(t){ const k=Math.min((t-t0)/dur,1), e=1-Math.pow(1-k,3);
       el.textContent=Math.round(target*e).toLocaleString('tr-TR'); if(k<1) requestAnimationFrame(step); })(t0);
@@ -348,15 +355,24 @@
   function constellation(){
     if(conDone) return; conDone=true;
     const off=document.createElement('canvas'), ox=off.getContext('2d');
-    const w=Math.min(innerWidth*.86,620), fs=Math.round(w/4.6);
-    off.width=w; off.height=fs*1.4;
-    ox.font=`italic 300 ${fs}px Fraunces, Georgia, serif`; ox.textAlign='center'; ox.textBaseline='middle';
-    ox.fillText('Güldeniz', w/2, off.height/2);
-    const img=ox.getImageData(0,0,off.width,off.height).data, pts=[], step=Math.max(4,Math.round(fs/14));
-    for(let y=0;y<off.height;y+=step) for(let x=0;x<w;x+=step) if(img[(y*w+x)*4+3]>128) pts.push([x,y]);
-    const ox0=(innerWidth-w)/2, oy0=innerHeight*.13-off.height/2;
-    stars2=pts.map(([x,y])=>({x:Math.random()*W,y:Math.random()*H,tx:(ox0+x)*D,ty:(oy0+y)*D,p:Math.random()*7,d:Math.random()*600}));
-    stars2.t0=performance.now();
+    const w=Math.min(innerWidth*.9,520), fs=Math.round(Math.min(w/4.3, innerHeight*.085));
+    const lh=fs*1.15, hs=fs*.9, h=Math.ceil(lh*2+hs+fs*.5);
+    off.width=w; off.height=h;
+    ox.fillStyle='#000'; ox.textAlign='center'; ox.textBaseline='middle';
+    ox.font=`600 ${fs}px Fraunces, Georgia, serif`;
+    ox.strokeStyle='#000'; ox.lineWidth=fs*.045; ox.lineJoin='round';
+    ox.fillText('Güldeniz', w/2, lh*.55); ox.strokeText('Güldeniz', w/2, lh*.55);
+    // kalp
+    const hx=w/2, hy=lh+hs*.5+fs*.1, k=hs/24;
+    ox.save(); ox.translate(hx-12*k, hy-12*k); ox.scale(k,k);
+    ox.fill(new Path2D('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'));
+    ox.restore();
+    ox.fillText('Arhan', w/2, lh+hs+fs*.2+lh*.5); ox.strokeText('Arhan', w/2, lh+hs+fs*.2+lh*.5);
+    const img=ox.getImageData(0,0,off.width,off.height).data, pts=[], step=Math.max(3,Math.round(fs/17));
+    for(let y=0;y<h;y+=step) for(let x=0;x<w;x+=step) if(img[(y*w+x)*4+3]>128) pts.push([x+(Math.random()-.5)*1.2,y+(Math.random()-.5)*1.2]);
+    const ox0=(innerWidth-w)/2, oy0=innerHeight*.04;
+    stars2=pts.map(([x,y])=>({x:Math.random()*W,y:Math.random()*H,tx:(ox0+x)*D,ty:(oy0+y)*D,p:Math.random()*7,d:Math.random()*700}));
+    stars2.t0=performance.now(); stars2.r=Math.min(1.9,step*.42);
   }
   function drawStars2(){
     if(!stars2||!stars2.length) return;
@@ -364,9 +380,9 @@
     for(const s of stars2){
       const k=Math.min(Math.max((t-s.d)/2200,0),1), e=1-Math.pow(1-k,3);
       const x=s.x+(s.tx-s.x)*e, y=s.y+(s.ty-s.y)*e; s.p+=.05;
-      ctx.globalAlpha=.55+Math.sin(s.p)*.3+(k===1?.15:0); ctx.fillStyle='#fff4d6';
+      ctx.globalAlpha=.75+Math.sin(s.p)*.2+(k===1?.05:0); ctx.fillStyle='#fff4d6';
       ctx.shadowColor='#f2cf8b'; ctx.shadowBlur=8*D;
-      ctx.beginPath(); ctx.arc(x,y,1.5*D,0,7); ctx.fill();
+      ctx.beginPath(); ctx.arc(x,y,Math.max(1.3,stars2.r||1.6)*D,0,7); ctx.fill();
     }
     ctx.shadowBlur=0; ctx.globalAlpha=1;
   }
@@ -375,10 +391,11 @@
   function sent(){
     document.getElementById('sentBtn').style.display='none';
     document.getElementById('sentMsg').style.display='block';
-    const em=['💛','💖','😘','🫶','✨','💕'];
+    const shapes=["<path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z\"/>","<path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z\"/>","<path d=\"M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z\"/>"], cols=['#f2cf8b','#ffb3c4','#fff4d6','#ff8fab'];
     for(let i=0;i<60;i++) setTimeout(()=>{
-      const d=document.createElement('div'); d.className='fall'; d.textContent=em[Math.floor(Math.random()*em.length)];
-      d.style.left=Math.random()*100+'vw'; d.style.fontSize=(18+Math.random()*26)+'px';
+      const d=document.createElement('div'); d.className='fall'; const sz=16+Math.random()*26, c=cols[Math.floor(Math.random()*cols.length)];
+      d.innerHTML=`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="${c}" stroke="none" style="filter:drop-shadow(0 0 6px ${c})">${shapes[Math.floor(Math.random()*shapes.length)]}</svg>`;
+      d.style.left=Math.random()*100+'vw';
       d.style.animationDuration=(3+Math.random()*3)+'s'; d.style.setProperty('--r',(Math.random()*360-180)+'deg');
       document.body.appendChild(d); setTimeout(()=>d.remove(),7000);
     }, i*70);
