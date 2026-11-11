@@ -81,11 +81,43 @@
   .polaroid:hover{transform:rotate(0) scale(1.02)}
   .polaroid img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:sepia(.18) saturate(1.05)}
   .polaroid .cap{font-family:'Caveat',cursive;font-size:1.6rem;color:#232750;padding:12px 0 16px}
+  .pair{display:flex;justify-content:center;gap:4%;margin-top:22px}
+  .pair .polaroid{width:46%;max-width:240px;margin:0;padding:10px 10px 0}
+  .pair .p-then{transform:rotate(-4deg)} .pair .p-now{transform:rotate(3.5deg) translateY(10px)}
+  .pair .polaroid .cap{font-size:1.3rem;padding:8px 0 12px}
+  .empty{aspect-ratio:4/5;border:2px dashed rgba(35,39,80,.25);background:linear-gradient(135deg,#eee7d6,#e4dcc8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+  .empty .cam{font-size:2.2rem;animation:glow 2.4s ease-in-out infinite}
+  .empty .q{font-family:'Caveat',cursive;font-size:1.3rem;color:#6b6f96;line-height:1.1}
+  .hand{font-family:'Caveat',cursive;font-size:1.6rem;color:var(--gold);display:inline-block;margin-top:10px}
+  .letter p{opacity:0;transform:translateY(6px);transition:opacity .9s ease, transform .9s ease}
+  .letter p.in{opacity:1;transform:none}
+  .scratch{position:relative;width:min(340px,88vw);aspect-ratio:16/10;margin:26px auto 0;border-radius:16px;overflow:hidden;box-shadow:0 0 50px -10px rgba(242,207,139,.35),0 20px 40px -20px rgba(0,0,0,.8)}
+  .coupon{position:absolute;inset:0;background:#fbf6ea;color:#232750;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;
+    background-image:radial-gradient(circle at 0 50%,transparent 14px,#fbf6ea 15px),radial-gradient(circle at 100% 50%,transparent 14px,#fbf6ea 15px);background-size:51% 100%;background-position:left,right;background-repeat:no-repeat}
+  .c-top{font-family:'Caveat',cursive;font-size:1.4rem;color:#a7772a;letter-spacing:.08em}
+  .c-main{font-size:1.25rem;line-height:1.3;font-weight:500}
+  .c-sub{font-size:.95rem;color:#55598a}
+  .c-exp{font-family:'Caveat',cursive;font-size:1.2rem;color:#a7772a;margin-top:4px}
+  #scratchCv{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab}
+  .moon::after{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(255,236,190,.35);animation:ring 3s ease-out infinite}
+  @keyframes ring{from{transform:scale(.9);opacity:.8}to{transform:scale(1.5);opacity:0}}
+  .moon-note{position:fixed;top:calc(7vh + 84px);right:4vw;z-index:6;max-width:240px;background:rgba(20,24,56,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(242,207,139,.4);border-radius:14px;padding:12px 16px;font-family:'Caveat',cursive;font-size:1.35rem;line-height:1.25;color:var(--gold);text-align:center;
+    opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .5s, transform .5s}
+  .moon-note.show{opacity:1;transform:none}
+  .days{margin-top:30px;display:flex;flex-direction:column;align-items:center}
+  .days #days{font-size:clamp(2.6rem,10vw,3.6rem);font-weight:300;color:var(--gold);text-shadow:0 0 24px rgba(242,207,139,.45);font-variant-numeric:tabular-nums;line-height:1}
+  .days small b{color:var(--gold);font-weight:400}
+  #since{margin-top:2px;font-size:1.25rem}
+  .days small{font-family:'Caveat',cursive;font-size:1.35rem;color:var(--soft);margin-top:4px}
+  .fall{position:fixed;top:-50px;z-index:7;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(var(--r))}}
 </style>
 </head>
 <body>
 <canvas id="sky"></canvas>
-<div class="moon"></div>
+<div class="moon" id="moon"></div>
+<div class="moon-note" id="moonNote">20 yıl beklediysem,<br>bir özrün cevabını da beklerim 🌙</div>
 <main>
 
   <section class="scene active" id="s1">
@@ -105,7 +137,7 @@
   </section>
 
   <section class="scene" id="s3">
-    <div class="letter">
+    <div class="letter" id="letter">
       <p>Güldeniz,</p>
       <p>O bar şakası için gerçekten özür dilerim. Komik değildi, saygısızcaydı ve seni kırdı.</p>
       <p>Niyetim seni üzmek değildi ama önemli olan benim niyetim değil, senin ne hissettiğin. Düşünmeden konuştuğum için utanıyorum.</p>
@@ -117,12 +149,20 @@
 
   <section class="scene" id="s4">
     <div class="eyebrow">Hatırlıyor musun?</div>
-    <div class="polaroid">
-      <img src="photo.jpg" alt="Çocukluk fotoğrafımız">
-      <div class="cap">biz, yıllar önce…</div>
+    <div class="pair">
+      <div class="polaroid p-then">
+        <img src="photo.jpg" alt="Çocukluk fotoğrafımız">
+        <div class="cap">biz, o zaman…</div>
+      </div>
+      <div class="polaroid p-now">
+        <div class="empty"><span class="cam">📸</span><span class="q">henüz<br>çekilmedi</span></div>
+        <div class="cap">biz, şimdi…</div>
+      </div>
     </div>
-    <h1 style="margin-top:28px">20 yıl sonra<br>yeniden <em>karşımdasın</em>.</h1>
-    <p class="lead">Hayat bizi aynı yere geri getirdi. Bunun kıymetini biliyorum.</p>
+    <div class="days"><span id="days">0</span><small>gün ayrı kaldık…</small><small id="since"></small></div>
+    <h1 style="margin-top:14px">Bu kadar zaman sonra<br>yeniden <em>karşımdasın</em>.</h1>
+    <p class="lead">Beni doğduğum günden beri tanıyorsun. Hayat bizi 20 yıl sonra yine aynı yere getirdi, bunun kıymetini biliyorum.<br>
+    <span class="hand">Bu ikinci fotoğrafı birlikte çekelim mi?</span></p>
     <button class="btn" onclick="go(5)">Devam et</button>
   </section>
 
@@ -143,10 +183,25 @@
     <div class="eyebrow">Sana sözüm</div>
     <h1>Bundan sonra<br><em>daha dikkatli</em> olacağım.</h1>
     <p class="promise">Ağzımdan çıkanı daha çok düşüneceğim, seni kırabilecek şakalar yapmayacağım,<br>ve sana ne kadar değer verdiğimi göstereceğim.</p>
-    <button class="btn" onclick="go(7)">Son soru…</button>
+    <button class="btn" onclick="go(7)">Bir şey daha…</button>
   </section>
 
   <section class="scene" id="s7">
+    <div class="eyebrow">Sana küçük bir sürpriz</div>
+    <h1>Parmağınla <em>kazı</em>.</h1>
+    <div class="scratch">
+      <div class="coupon">
+        <div class="c-top">🎟️ KUPON</div>
+        <div class="c-main">İlk fotoğrafımızı çekmek için<br>bir buluşma</div>
+        <div class="c-sub">Gün senden, yer senden. Kahveler benden ☕</div>
+        <div class="c-exp">Son kullanma tarihi: yok</div>
+      </div>
+      <canvas id="scratchCv"></canvas>
+    </div>
+    <button class="btn" id="afterScratch" onclick="go(8)" style="visibility:hidden">Son soru…</button>
+  </section>
+
+  <section class="scene" id="s8">
     <div class="big-heart">🌙</div>
     <h1>Beni <em>affeder</em> misin?</h1>
     <p class="lead">Dikkatli düşün, cevabın benim için çok önemli 🙂</p>
@@ -156,24 +211,19 @@
     </div>
   </section>
 
-  <section class="scene" id="s8">
+  <section class="scene" id="s9" style="padding-top:20vh">
     <div class="big-heart">💛</div>
     <h1>Teşekkür ederim,<br><em>Güldeniz</em>.</h1>
     <p class="lead">Affettiysen kameraya bir kalp 🫶 ve bir öpücük 😘 gönderir misin?</p>
-  </section>
-
-  <section class="scene" id="s9">
-    <div class="big-heart">✨</div>
-    <h1>Anlıyorum,<br>ve <em>bekleyeceğim</em>.</h1>
-    <p class="lead">Acele yok. Hazır olduğunda buradayım.<br>Konuşmak istersen sadece bir mesaj yeter.</p>
-    <button class="btn ghost" onclick="go(7)">Geri dön</button>
+    <button class="btn" id="sentBtn" onclick="sent()">Gönderdim 😘</button>
+    <p class="lead hand" id="sentMsg" style="display:none">Ben de sana sonsuz kalp gönderiyorum 💛<br>Yakında o ikinci fotoğrafta görüşmek üzere 📸</p>
   </section>
 
   <div class="dots" id="dots"></div>
 </main>
 
 <script>
-  const total = 7;
+  const total = 8;
   let cur = 1;
   const dots = document.getElementById('dots');
   for (let i=1;i<=total;i++){ const d=document.createElement('span'); dots.appendChild(d); }
@@ -185,7 +235,13 @@
     el.classList.add('active');
     window.scrollTo({top:0,behavior:'smooth'});
     if(n===5){ el.querySelectorAll('.reason').forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=>r.classList.add('show'), 350+i*550); }); }
-    if(typeof no!=='undefined') no.style.display = n===7 ? '' : 'none';
+    if(typeof no!=='undefined') no.style.display = n===8 ? '' : 'none';
+    if(n===3){ document.querySelectorAll('#letter p').forEach((p,i)=>{ p.classList.remove('in'); setTimeout(()=>p.classList.add('in'), 300+i*1100); }); }
+    if(n===7) initScratch();
+    if(n===4) countDays();
+    if(n===9) setTimeout(constellation, 900);
+    const mo=document.getElementById('moon'); mo.style.transition='opacity 1.2s'; mo.style.opacity = n===9 ? '0' : '1';
+    const mn=document.getElementById('moonNote'); if(mn) mn.classList.remove('show');
     paintDots();
   }
   paintDots();
@@ -210,6 +266,46 @@
   no.addEventListener('touchstart',flee,{passive:false});
   no.addEventListener('click',flee);
 
+  // kazı kazan
+  let scratchReady=false;
+  function initScratch(){
+    if(scratchReady) return; scratchReady=true;
+    const cv=document.getElementById('scratchCv'), x=cv.getContext('2d');
+    const r=cv.getBoundingClientRect(), d=devicePixelRatio||1;
+    cv.width=r.width*d; cv.height=r.height*d; x.scale(d,d);
+    const g=x.createLinearGradient(0,0,r.width,r.height);
+    g.addColorStop(0,'#c9ccd8'); g.addColorStop(.5,'#eef0f6'); g.addColorStop(1,'#aeb2c4');
+    x.fillStyle=g; x.fillRect(0,0,r.width,r.height);
+    for(let i=0;i<260;i++){ x.fillStyle=`rgba(255,255,255,${Math.random()*.5})`; x.fillRect(Math.random()*r.width,Math.random()*r.height,1.5,1.5); }
+    x.fillStyle='#4a4f7a'; x.font='600 22px Fraunces, Georgia, serif'; x.textAlign='center'; x.textBaseline='middle';
+    x.fillText('★ Kazı kazan ★', r.width/2, r.height/2);
+    x.globalCompositeOperation='destination-out';
+    let down=false, last=null, done=false;
+    const btn=document.getElementById('afterScratch');
+    function pos(e){ const b=cv.getBoundingClientRect(); return {x:e.clientX-b.left,y:e.clientY-b.top}; }
+    function line(a,b){ x.lineWidth=38; x.lineCap='round'; x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.stroke(); }
+    function check(){
+      if(done) return;
+      const data=x.getImageData(0,0,cv.width,cv.height).data; let clear=0;
+      for(let i=3;i<data.length;i+=64) if(data[i]===0) clear++;
+      if(clear/(data.length/64)>.5){ done=true; cv.style.transition='opacity .8s'; cv.style.opacity='0'; btn.style.visibility='visible'; celebrate(); }
+    }
+    cv.addEventListener('pointerdown',e=>{ down=true; last=pos(e); line(last,last); cv.setPointerCapture(e.pointerId); });
+    cv.addEventListener('pointermove',e=>{ if(!down) return; const p=pos(e); line(last,p); last=p; });
+    addEventListener('pointerup',()=>{ if(down){ down=false; check(); } });
+    setTimeout(()=>{ btn.style.visibility='visible'; }, 15000);
+  }
+
+  // aya dokun
+  const moonEl=document.getElementById('moon'), note=document.getElementById('moonNote');
+  addEventListener('click',e=>{
+    if(e.target.closest('button,.envelope,.scratch,.polaroid,.letter,.reason')) return;
+    const m=moonEl.getBoundingClientRect();
+    if(e.clientX>=m.left-12&&e.clientX<=m.right+12&&e.clientY>=m.top-12&&e.clientY<=m.bottom+12){
+      note.classList.add('show'); clearTimeout(note._t); note._t=setTimeout(()=>note.classList.remove('show'),4500);
+    }
+  });
+
   // starry sky
   const c = document.getElementById('sky'), ctx = c.getContext('2d');
   const D = devicePixelRatio||1; let W,H, stars=[], shoots=[], sparks=[];
@@ -230,15 +326,71 @@
     sparks=sparks.filter(p=>p.life>0);
     for(const p of sparks){ p.x+=p.vx; p.y+=p.vy; p.vy+=.03*D; p.life-=.008;
       ctx.globalAlpha=Math.max(p.life,0); ctx.fillStyle=p.c; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.fill(); }
+    drawStars2();
     ctx.globalAlpha=1; requestAnimationFrame(tick);
   }
   tick();
+  function celebrate(){
+    const cols=['#f2cf8b','#fff4d6','#ffd1dc','#cfd8ff'], cx=W/2, cy=H*.45;
+    for(let i=0;i<60;i++){ const a=Math.random()*7, v=(1+Math.random()*3.5)*D; sparks.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:(1+Math.random()*1.6)*D,life:1,c:cols[i%4]}); }
+  }
+  // gün sayacı
+  function countDays(){
+    const n=Math.floor((Date.now()-new Date(2026,10,4).getTime())/864e5), sn=document.getElementById('since');
+    sn.innerHTML = n<=0 ? 'ta ki bugün yeniden karşılaşana dek 💛' : `<b>4 Kasım 2026</b>'da yeniden karşılaştık,<br>üstünden ${n} gün geçti 💛`;
+    const el=document.getElementById('days'), target=7305, t0=performance.now(), dur=2600;
+    (function step(t){ const k=Math.min((t-t0)/dur,1), e=1-Math.pow(1-k,3);
+      el.textContent=Math.round(target*e).toLocaleString('tr-TR'); if(k<1) requestAnimationFrame(step); })(t0);
+  }
+
+  // yıldızlardan isim
+  var stars2=[], conDone=false;
+  function constellation(){
+    if(conDone) return; conDone=true;
+    const off=document.createElement('canvas'), ox=off.getContext('2d');
+    const w=Math.min(innerWidth*.86,620), fs=Math.round(w/4.6);
+    off.width=w; off.height=fs*1.4;
+    ox.font=`italic 300 ${fs}px Fraunces, Georgia, serif`; ox.textAlign='center'; ox.textBaseline='middle';
+    ox.fillText('Güldeniz', w/2, off.height/2);
+    const img=ox.getImageData(0,0,off.width,off.height).data, pts=[], step=Math.max(4,Math.round(fs/14));
+    for(let y=0;y<off.height;y+=step) for(let x=0;x<w;x+=step) if(img[(y*w+x)*4+3]>128) pts.push([x,y]);
+    const ox0=(innerWidth-w)/2, oy0=innerHeight*.13-off.height/2;
+    stars2=pts.map(([x,y])=>({x:Math.random()*W,y:Math.random()*H,tx:(ox0+x)*D,ty:(oy0+y)*D,p:Math.random()*7,d:Math.random()*600}));
+    stars2.t0=performance.now();
+  }
+  function drawStars2(){
+    if(!stars2||!stars2.length) return;
+    const t=performance.now()-stars2.t0;
+    for(const s of stars2){
+      const k=Math.min(Math.max((t-s.d)/2200,0),1), e=1-Math.pow(1-k,3);
+      const x=s.x+(s.tx-s.x)*e, y=s.y+(s.ty-s.y)*e; s.p+=.05;
+      ctx.globalAlpha=.55+Math.sin(s.p)*.3+(k===1?.15:0); ctx.fillStyle='#fff4d6';
+      ctx.shadowColor='#f2cf8b'; ctx.shadowBlur=8*D;
+      ctx.beginPath(); ctx.arc(x,y,1.5*D,0,7); ctx.fill();
+    }
+    ctx.shadowBlur=0; ctx.globalAlpha=1;
+  }
+
+  // kalp yağmuru
+  function sent(){
+    document.getElementById('sentBtn').style.display='none';
+    document.getElementById('sentMsg').style.display='block';
+    const em=['💛','💖','😘','🫶','✨','💕'];
+    for(let i=0;i<60;i++) setTimeout(()=>{
+      const d=document.createElement('div'); d.className='fall'; d.textContent=em[Math.floor(Math.random()*em.length)];
+      d.style.left=Math.random()*100+'vw'; d.style.fontSize=(18+Math.random()*26)+'px';
+      d.style.animationDuration=(3+Math.random()*3)+'s'; d.style.setProperty('--r',(Math.random()*360-180)+'deg');
+      document.body.appendChild(d); setTimeout(()=>d.remove(),7000);
+    }, i*70);
+    celebrate();
+  }
+
   function forgive(){
     const cols=['#f2cf8b','#fff4d6','#ffd1dc','#cfd8ff'];
     for(let k=0;k<3;k++) setTimeout(()=>{ const cx=W*(.25+Math.random()*.5), cy=H*(.2+Math.random()*.3);
       for(let i=0;i<70;i++){ const a=Math.random()*7, v=(1+Math.random()*4)*D;
         sparks.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:(1+Math.random()*1.8)*D,life:1,c:cols[i%4]}); } shoot(); }, k*450);
-    go(8);
+    go(9);
   }
 </script>
 </body>
