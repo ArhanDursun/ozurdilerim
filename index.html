@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,400&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#eef0ff; --soft:#b3bbdc; --gold:f2cf8b#; --gold-d:#e0b566;
+    --ink:#eef0ff; --soft:#b3bbdc; --gold:#f2cf8b; --gold-d:#e0b566;
     --glass:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -308,16 +308,16 @@
   no.addEventListener('touchstart',flee,{passive:false});
   no.addEventListener('click',flee);
 
-  // kaydırmalı yapboz (4x4)
+  // kaydırmalı yapboz (3x3, 8 parça)
   var puzReady=false;
   function initPuzzle(){
     if(puzReady) return; puzReady=true;
-    const N=4, board=document.getElementById('puz'), movesEl=document.getElementById('puzMoves');
+    const N=3, board=document.getElementById('puz'), movesEl=document.getElementById('puzMoves');
     const ghost=document.createElement('div'); ghost.className='ghost'; board.appendChild(ghost);
     let state=[...Array(N*N).keys()], empty=N*N-1, moves=0, done=false, swiped=false;
     const tiles=[];
     for(let t=0;t<N*N;t++){
-      const d=document.createElement('div'); d.className='tile';
+      const d=document.createElement('div'); d.className='tile'; d.style.width=d.style.height=(100/N)+'%'; d.style.backgroundSize=(N*100)+'% '+(N*100)+'%';
       d.style.backgroundPosition=`${(t%N)*100/(N-1)}% ${Math.floor(t/N)*100/(N-1)}%`;
       if(t===N*N-1) d.classList.add('gone');
       d.addEventListener('click',()=>{ if(swiped){ swiped=false; return; } tryMove(state.indexOf(t)); });
@@ -328,7 +328,7 @@
     function swap(p){ const e=state.indexOf(N*N-1); [state[p],state[e]]=[state[e],state[p]]; }
     // karıştır: çözülebilir olması için geçerli hamlelerle
     let prev=-1;
-    for(let i=0;i<28;i++){ const e=state.indexOf(N*N-1); const opts=nb(e).filter(x=>x!==prev); const p=opts[Math.floor(Math.random()*opts.length)]; prev=e; swap(p); }
+    for(let i=0;i<22;i++){ const e=state.indexOf(N*N-1); const opts=nb(e).filter(x=>x!==prev); const p=opts[Math.floor(Math.random()*opts.length)]; prev=e; swap(p); }
     if(state.every((t,i)=>t===i)) { swap(nb(state.indexOf(N*N-1))[0]); }
     place();
     function tryMove(p){
