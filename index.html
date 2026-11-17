@@ -14,6 +14,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
+  html{background:#070919}
   body{
     font-family:'Fraunces',Georgia,serif; color:var(--ink);
     background:radial-gradient(ellipse at 50% 120%,#2b2f6b 0%,#141838 45%,#070919 100%) fixed;
@@ -81,9 +82,11 @@
   .polaroid:hover{transform:rotate(0) scale(1.02)}
   .polaroid img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:sepia(.18) saturate(1.05)}
   .polaroid .cap{font-family:'Caveat',cursive;font-size:1.6rem;color:#232750;padding:12px 0 16px}
-  .pair{display:flex;justify-content:center;gap:4%;margin-top:22px}
-  .pair .polaroid{width:46%;max-width:240px;margin:0;padding:10px 10px 0}
-  .pair .p-then{transform:rotate(-4deg)} .pair .p-now{transform:rotate(3.5deg) translateY(10px)}
+  .pair{display:flex;flex-direction:column;align-items:center;margin-top:22px}
+  .pair .polaroid{margin:0;padding:10px 10px 0}
+  .pair .p-then{width:min(200px,52vw);transform:rotate(-5deg) translateX(-22%);z-index:1}
+  .pair .p-now{width:min(360px,86vw);transform:rotate(2.5deg) translateX(6%);margin-top:-46px;z-index:2}
+  .pair .p-now img{aspect-ratio:16/9;object-position:center 35%}
   .pair .polaroid .cap{font-size:1.3rem;padding:8px 0 12px}
   .empty{aspect-ratio:4/5;border:2px dashed rgba(35,39,80,.25);background:linear-gradient(135deg,#eee7d6,#e4dcc8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
   .empty .cam{font-size:2.2rem;animation:glow 2.4s ease-in-out infinite}
@@ -119,6 +122,19 @@
   .btn .ic{margin-right:4px}
   .lead .ic,.hand .ic,.moon-note .ic,#since .ic{color:var(--gold)}
   .big-heart{line-height:0}
+  .puz-wrap{width:min(380px,90vw);margin:24px auto 0;padding:8px;background:#fbf6ea;border-radius:10px;box-shadow:0 0 50px -10px rgba(242,207,139,.35),0 20px 40px -20px rgba(0,0,0,.8)}
+  .puz{position:relative;width:100%;aspect-ratio:16/9;touch-action:none;user-select:none;-webkit-user-select:none;background:#1a1d42;border-radius:4px;overflow:hidden}
+  .tile{position:absolute;width:25%;height:25%;background-image:url(photo3.jpg);background-size:400% 400%;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);cursor:pointer;transition:transform .18s ease, box-shadow .4s, opacity .6s;border-radius:2px}
+  .tile.solved{box-shadow:none}
+  .tile.gone{opacity:0}
+  .puz.peek .tile{opacity:.15}
+  .puz .ghost{position:absolute;inset:0;background:url(photo3.jpg) center/cover;opacity:0;transition:opacity .3s;pointer-events:none}
+  .puz.peek .ghost{opacity:1}
+  .puz.win{box-shadow:0 0 30px rgba(242,207,139,.6)}
+  .puz-bar{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px;color:var(--soft);font-size:.95rem;flex-wrap:wrap}
+  .mini{font-family:inherit;font-size:.9rem;background:transparent;color:var(--gold);border:1px solid rgba(242,207,139,.5);border-radius:999px;padding:7px 14px;cursor:pointer}
+  .mini:hover{background:rgba(242,207,139,.1)}
 </style>
 </head>
 <body>
@@ -162,18 +178,32 @@
         <div class="cap">biz, o zaman…</div>
       </div>
       <div class="polaroid p-now">
-        <div class="empty"><span class="cam"><svg class="ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span><span class="q">henüz<br>çekilmedi</span></div>
-        <div class="cap">biz, şimdi…</div>
+        <img src="photo2.jpg" alt="Biz, şimdi">
+        <div class="cap">biz, şimdi… ♡</div>
       </div>
     </div>
     <div class="days"><span id="days">0</span><small>gün ayrı kaldık…</small><small id="since"></small></div>
     <h1 style="margin-top:14px">Bu kadar zaman sonra<br>yeniden <em>karşımdasın</em>.</h1>
     <p class="lead">Beni doğduğum günden beri tanıyorsun. Hayat bizi 20 yıl sonra yine aynı yere getirdi, bunun kıymetini biliyorum.<br>
-    <span class="hand">Bu ikinci fotoğrafı birlikte çekelim mi?</span></p>
+    <span class="hand">Ve ikinci fotoğrafımız da çekildi.</span></p>
     <button class="btn" onclick="go(5)">Devam et</button>
   </section>
 
   <section class="scene" id="s5">
+    <div class="eyebrow">Küçük bir oyun</div>
+    <h1>Bizi <em>tamamla</em>.</h1>
+    <p class="lead">Parçaları boşluğa kaydır, fotoğrafı yeniden birleştir.</p>
+    <div class="puz-wrap"><div class="puz" id="puz"></div></div>
+    <div class="puz-bar">
+      <span id="puzMoves">0 hamle</span>
+      <button class="mini" id="peekBtn">Fotoğrafa bak</button>
+      <button class="mini" id="giveUp" style="display:none">Pes ediyorum</button>
+    </div>
+    <p class="lead hand" id="puzDone" style="display:none">İşte biz. Parça parça değil, bütün. ♡</p>
+    <button class="btn" id="afterPuz" onclick="go(6)" style="visibility:hidden">Devam et</button>
+  </section>
+
+  <section class="scene" id="s6">
     <div class="eyebrow">Bilmeni istediğim şeyler</div>
     <h1>Seninle konuşmak neden<br>bu kadar <em>güzel</em>?</h1>
     <div class="reasons">
@@ -183,17 +213,17 @@
       <div class="reason"><span class="n">4</span><span class="t">Seninle sıradan bir sohbet bile özel oluyor.</span></div>
       <div class="reason"><span class="n">5</span><span class="t">Çünkü sen, sensin. Başka bir sebebe gerek yok.</span></div>
     </div>
-    <button class="btn" onclick="go(6)">Bir şey daha var</button>
-  </section>
-
-  <section class="scene" id="s6">
-    <div class="eyebrow">Sana sözüm</div>
-    <h1>Bundan sonra<br><em>daha dikkatli</em> olacağım.</h1>
-    <p class="promise">Ağzımdan çıkanı daha çok düşüneceğim, seni kırabilecek şakalar yapmayacağım,<br>ve sana ne kadar değer verdiğimi göstereceğim.</p>
-    <button class="btn" onclick="go(7)">Bir şey daha…</button>
+    <button class="btn" onclick="go(7)">Bir şey daha var</button>
   </section>
 
   <section class="scene" id="s7">
+    <div class="eyebrow">Sana sözüm</div>
+    <h1>Bundan sonra<br><em>daha dikkatli</em> olacağım.</h1>
+    <p class="promise">Ağzımdan çıkanı daha çok düşüneceğim, seni kırabilecek şakalar yapmayacağım,<br>ve sana ne kadar değer verdiğimi göstereceğim.</p>
+    <button class="btn" onclick="go(8)">Bir şey daha…</button>
+  </section>
+
+  <section class="scene" id="s8">
     <div class="eyebrow">Sana küçük bir sürpriz</div>
     <h1>Parmağınla <em>kazı</em>.</h1>
     <div class="scratch">
@@ -205,10 +235,10 @@
       </div>
       <canvas id="scratchCv"></canvas>
     </div>
-    <button class="btn" id="afterScratch" onclick="go(8)" style="visibility:hidden">Son soru…</button>
+    <button class="btn" id="afterScratch" onclick="go(9)" style="visibility:hidden">Son soru…</button>
   </section>
 
-  <section class="scene" id="s8">
+  <section class="scene" id="s9">
     <div class="big-heart"><svg class="ic-xl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></div>
     <h1>Beni <em>affeder</em> misin?</h1>
     <p class="lead">Dikkatli düşün, cevabın benim için çok önemli</p>
@@ -218,7 +248,7 @@
     </div>
   </section>
 
-  <section class="scene" id="s9" style="padding-top:34vh">
+  <section class="scene" id="s10" style="padding-top:34vh">
     <div class="big-heart"><svg class="ic-xl" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
     <h1>Teşekkür ederim,<br><em>Güldeniz</em>.</h1>
     <p class="lead">Affettiysen kameraya bir kalp ve bir öpücük gönderir misin? <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></p>
@@ -230,7 +260,7 @@
 </main>
 
 <script>
-  const total = 8;
+  const total = 9;
   let cur = 1;
   const dots = document.getElementById('dots');
   for (let i=1;i<=total;i++){ const d=document.createElement('span'); dots.appendChild(d); }
@@ -241,13 +271,14 @@
     const el = document.getElementById('s'+n);
     el.classList.add('active');
     window.scrollTo({top:0,behavior:'smooth'});
-    if(n===5){ el.querySelectorAll('.reason').forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=>r.classList.add('show'), 350+i*550); }); }
-    if(typeof no!=='undefined') no.style.display = n===8 ? '' : 'none';
+    if(n===6){ el.querySelectorAll('.reason').forEach((r,i)=>{ r.classList.remove('show'); setTimeout(()=>r.classList.add('show'), 350+i*550); }); }
+    if(typeof no!=='undefined') no.style.display = n===9 ? '' : 'none';
     if(n===3){ document.querySelectorAll('#letter p').forEach((p,i)=>{ p.classList.remove('in'); setTimeout(()=>p.classList.add('in'), 300+i*1100); }); }
-    if(n===7) initScratch();
+    if(n===8) initScratch();
     if(n===4) countDays();
-    if(n===9) (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>setTimeout(constellation, 900));
-    const mo=document.getElementById('moon'); mo.style.transition='opacity 1.2s'; mo.style.opacity = n===9 ? '0' : '1';
+    if(n===5) initPuzzle();
+    if(n===10) (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>setTimeout(constellation, 900));
+    const mo=document.getElementById('moon'); mo.style.transition='opacity 1.2s'; mo.style.opacity = n===10 ? '0' : '1';
     const mn=document.getElementById('moonNote'); if(mn) mn.classList.remove('show');
     paintDots();
   }
@@ -272,6 +303,66 @@
   no.addEventListener('pointerdown',flee);
   no.addEventListener('touchstart',flee,{passive:false});
   no.addEventListener('click',flee);
+
+  // kaydırmalı yapboz (4x4)
+  var puzReady=false;
+  function initPuzzle(){
+    if(puzReady) return; puzReady=true;
+    const N=4, board=document.getElementById('puz'), movesEl=document.getElementById('puzMoves');
+    const ghost=document.createElement('div'); ghost.className='ghost'; board.appendChild(ghost);
+    let state=[...Array(N*N).keys()], empty=N*N-1, moves=0, done=false, swiped=false;
+    const tiles=[];
+    for(let t=0;t<N*N;t++){
+      const d=document.createElement('div'); d.className='tile';
+      d.style.backgroundPosition=`${(t%N)*100/(N-1)}% ${Math.floor(t/N)*100/(N-1)}%`;
+      if(t===N*N-1) d.classList.add('gone');
+      d.addEventListener('click',()=>{ if(swiped){ swiped=false; return; } tryMove(state.indexOf(t)); });
+      board.appendChild(d); tiles.push(d);
+    }
+    function place(){ state.forEach((t,p)=>{ tiles[t].style.transform=`translate(${(p%N)*100}%, ${Math.floor(p/N)*100}%)`; }); }
+    function nb(p){ const r=Math.floor(p/N), c=p%N, a=[]; if(r>0)a.push(p-N); if(r<N-1)a.push(p+N); if(c>0)a.push(p-1); if(c<N-1)a.push(p+1); return a; }
+    function swap(p){ const e=state.indexOf(N*N-1); [state[p],state[e]]=[state[e],state[p]]; }
+    // karıştır: çözülebilir olması için geçerli hamlelerle
+    let prev=-1;
+    for(let i=0;i<120;i++){ const e=state.indexOf(N*N-1); const opts=nb(e).filter(x=>x!==prev); const p=opts[Math.floor(Math.random()*opts.length)]; prev=e; swap(p); }
+    if(state.every((t,i)=>t===i)) { swap(nb(state.indexOf(N*N-1))[0]); }
+    place();
+    function tryMove(p){
+      if(done) return;
+      const e=state.indexOf(N*N-1), pr=Math.floor(p/N), pc=p%N, er=Math.floor(e/N), ec=e%N;
+      if(pr!==er && pc!==ec) return;
+      // aynı satır/sütundaysa aradaki parçaları da kaydır
+      const step = pr===er ? (pc<ec?-1:1) : (pr<er?-N:N);
+      let cur=e;
+      while(cur!==p){ const nx=cur+step; [state[cur],state[nx]]=[state[nx],state[cur]]; cur=nx; moves++; }
+      movesEl.textContent=moves+' hamle'; place(); check();
+    }
+    function check(){
+      if(!state.every((t,i)=>t===i)) return;
+      done=true; tiles[N*N-1].classList.remove('gone');
+      setTimeout(()=>{ tiles.forEach(t=>t.classList.add('solved')); board.classList.add('win'); celebrate();
+        document.getElementById('puzDone').style.display='block'; document.getElementById('afterPuz').style.visibility='visible';
+        document.getElementById('giveUp').style.display='none'; document.getElementById('peekBtn').style.display='none'; }, 250);
+    }
+    // kaydırma hareketi
+    let sx=0, sy=0;
+    board.addEventListener('pointerdown',e=>{ sx=e.clientX; sy=e.clientY; });
+    board.addEventListener('pointerup',e=>{
+      const dx=e.clientX-sx, dy=e.clientY-sy; if(Math.max(Math.abs(dx),Math.abs(dy))<24) return; swiped=true; setTimeout(()=>swiped=false,50);
+      const e0=state.indexOf(N*N-1), r=Math.floor(e0/N), c=e0%N; let p=-1;
+      if(Math.abs(dx)>Math.abs(dy)){ if(dx>0&&c>0)p=e0-1; if(dx<0&&c<N-1)p=e0+1; }
+      else { if(dy>0&&r>0)p=e0-N; if(dy<0&&r<N-1)p=e0+N; }
+      if(p>=0){ e.preventDefault(); tryMove(p); }
+    });
+    // fotoğrafa göz at (basılı tutunca)
+    const peek=document.getElementById('peekBtn');
+    const on=()=>board.classList.add('peek'), off=()=>board.classList.remove('peek');
+    peek.addEventListener('pointerdown',on); ['pointerup','pointerleave','pointercancel'].forEach(ev=>peek.addEventListener(ev,off));
+    // takılırsa: 90 sn sonra pes et butonu
+    const gu=document.getElementById('giveUp');
+    setTimeout(()=>{ if(!done) gu.style.display=''; }, 90000);
+    gu.addEventListener('click',()=>{ state=[...Array(N*N).keys()]; place(); check(); });
+  }
 
   // kazı kazan
   let scratchReady=false;
@@ -407,7 +498,7 @@
     for(let k=0;k<3;k++) setTimeout(()=>{ const cx=W*(.25+Math.random()*.5), cy=H*(.2+Math.random()*.3);
       for(let i=0;i<70;i++){ const a=Math.random()*7, v=(1+Math.random()*4)*D;
         sparks.push({x:cx,y:cy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,r:(1+Math.random()*1.8)*D,life:1,c:cols[i%4]}); } shoot(); }, k*450);
-    go(9);
+    go(10);
   }
 </script>
 </body>
